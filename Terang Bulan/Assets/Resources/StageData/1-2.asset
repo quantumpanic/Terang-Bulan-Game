@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 32
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c4dbd099a7d6b44cad99c72683aaf55, type: 3}
+  m_Name: 1-2
+  m_EditorClassIdentifier: 
+  stageName: 1-2
+  hasNoGameplay: 1
+  coinsGoal: 0
+  customersGoal: 0
+  timeLimitBase: 0
+  custSpwnTimeBase: 10
+  custSpwnTimeRand: 5
+  stageIsUnlocked: 0
+  _stageIsUnlocked: 0
+  _customerPenalty: 0
+  stagesToUnlock:
+  - {fileID: 11400000, guid: 98bc48889efe3a040b384cbfabfd5694, type: 2}
