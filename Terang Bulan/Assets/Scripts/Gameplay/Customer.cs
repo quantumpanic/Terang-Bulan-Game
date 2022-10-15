@@ -43,6 +43,14 @@ public class Customer : MonoBehaviour
         }
 
         ShowOrderBubble();
+        SetRandomSprite();
+    }
+
+    void SetRandomSprite()
+    {
+        Image spriteScrpt = transform.GetChild(0).GetComponent<Image>();
+        int randNum = Random.Range(0, 6);
+        spriteScrpt.sprite = Resources.LoadAll<Sprite>("Sprites/Jelly_Colored")[randNum];
     }
 
     private void Update()
@@ -52,18 +60,25 @@ public class Customer : MonoBehaviour
         if (_timeWaiting >= maxTimeWaiting) CancelOrder();
     }
 
-    public void OrderDone(Kue cake){
+    public void OrderDone(Kue cake)
+    {
         orders.Remove(cake);
         Destroy(cake);
 
         // update the bubble
         ShowOrderBubble();
+
+        // play sfx
+        Gameplay.Instance.PlaySfxOrderDone();
     }
 
     void CancelOrder()
     {
         // tell game to remove self from queue
         Gameplay.Instance.CustomerCancelled(this);
+
+        // play sfx
+        Gameplay.Instance.PlaySfxCustomerLeft();
     }
 
     public void LeaveQueue()

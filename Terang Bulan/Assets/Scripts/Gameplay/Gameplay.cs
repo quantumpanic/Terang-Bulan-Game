@@ -32,6 +32,7 @@ public class Gameplay : MonoBehaviour
 
     // references
     public Text scoreBoard;
+    public Text coinsCounter;
     public Text gameTimer;
     public GameObject victoryScreen;
     public GameObject retryScreen;
@@ -59,6 +60,7 @@ public class Gameplay : MonoBehaviour
         timeLimit = stageData.timeLimitBase;
         custSpwnTimeBase = stageData.custSpwnTimeBase;
         custSpwnTimeRand = stageData.custSpwnTimeRand;
+        _coinsGet = GameManager.Instance.totalCoins;
 
         // add penalty
         customersGoal += GameManager.Instance._penalty;
@@ -223,6 +225,11 @@ public class Gameplay : MonoBehaviour
         cust.OrderDone(order);
         cust._timeWaiting -= 5f; // time bonus
         print("order done!");
+
+        // add coins
+        _coinsGet += 5;
+
+        UpdateScoreBoard();
     }
 
     void DismissCustomer(Customer cust)
@@ -260,12 +267,14 @@ public class Gameplay : MonoBehaviour
 
     void ShowVictoryScreen()
     {
+        GameManager.Instance.totalCoins = _coinsGet;
         gameIsRunning = false;
         victoryScreen.SetActive(true);
     }
 
     void ShowDefeatScreen()
     {
+        GameManager.Instance.totalCoins = _coinsGet;
         gameIsRunning = false;
         retryScreen.SetActive(true);
     }
@@ -273,6 +282,7 @@ public class Gameplay : MonoBehaviour
     void UpdateScoreBoard()
     {
         scoreBoard.text = "Goal: " + _customersDone + "/" + customersGoal;
+        coinsCounter.text = "Coins: " + _coinsGet;
     }
 
     void UpdateGameTimer()
@@ -356,6 +366,7 @@ public class Gameplay : MonoBehaviour
         if (foundVacancy)
         {
             readyCakesQueue[emptySpotPos].AddTopping(topping);
+            PlaySfxSquelch();
         }
     }
 
@@ -376,7 +387,7 @@ public class Gameplay : MonoBehaviour
         //     }
         // }
 
-        for (int customerIndex = 0; customerIndex < customerQueue.Count; customerIndex++)
+        for (int customerIndex = customerQueue.Count - 1; customerIndex >= 0; customerIndex--)
         {
             Customer currCustomer = customerQueue[customerIndex];
             foreach (Kue order in customerQueue[customerIndex].orders)
@@ -402,6 +413,24 @@ public class Gameplay : MonoBehaviour
             // make some buzzer sound
             print("wrong order!");
         }
+    }
+
+    public AudioSource sfxOrderDone;
+    public AudioSource sfxCustomerLeft;
+
+    public void PlaySfxOrderDone()
+    {
+        sfxOrderDone.Play();
+    }
+
+    public void PlaySfxCustomerLeft()
+    {
+        sfxCustomerLeft.Play();
+    }
+
+    void PlaySfxSquelch()
+    {
+        GameObject.Find("Toppings").GetComponent<AudioSource>().Play();
     }
 
     #endregion

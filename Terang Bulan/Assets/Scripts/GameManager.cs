@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -8,9 +9,17 @@ public class GameManager : MonoBehaviour
     // Singleton
     public static GameManager Instance;
 
-    private void Awake() {
-        if (!Instance) Instance = this;
-        DontDestroyOnLoad(gameObject);
+    private void Awake()
+    {
+        if (!Instance)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     // Static variables
@@ -25,12 +34,15 @@ public class GameManager : MonoBehaviour
     // References
 
     // Methods
-    public void OpenStageSelect(){
+    public void OpenStageSelect()
+    {
         SceneManager.LoadScene("StageSelect");
     }
 
-    public void LoadGame(StageDataObject dataObj){
-        if (dataObj.hasNoGameplay){
+    public void LoadGame(StageDataObject dataObj)
+    {
+        if (dataObj.hasNoGameplay)
+        {
             UnlockStagesFromDataObj(dataObj);
             RefreshStageSelectButtons();
             return;
@@ -40,13 +52,16 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
-    public void UnlockStagesFromDataObj(StageDataObject dataObj){
-        foreach (StageDataObject o in dataObj.stagesToUnlock){
+    public void UnlockStagesFromDataObj(StageDataObject dataObj)
+    {
+        foreach (StageDataObject o in dataObj.stagesToUnlock)
+        {
             o._stageIsUnlocked = true;
         }
     }
 
-    void RefreshStageSelectButtons(){
+    void RefreshStageSelectButtons()
+    {
         OpenStageSelect();
     }
 }

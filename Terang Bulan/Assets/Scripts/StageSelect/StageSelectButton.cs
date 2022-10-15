@@ -20,4 +20,8 @@ public class StageSelectButton : MonoBehaviour
         GetComponentInChildren<Button>().interactable = dataObject._stageIsUnlocked;
         // GetComponentInChildren<Button>().interactable = dataObject.stageIsUnlocked;
     }
+
+    public void PlaySfx(){
+        GetComponent<AudioSource>().Play();
+    }
 }
